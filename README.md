@@ -6,5 +6,5 @@ The code allows you to parse through your transaction history (see Obtaining CSV
 Currently does not account for deposits / withdrawals.
 
 ### Obtaining CSV
-Download your Bittrex orders (see below; Click CSV button on completed orders) and upload the file on the portfolio page.
+Download your Bittrex transaction history on the order page by clicking CSV button on completed orders.
 ![screenshot](img/bittrex.png)
