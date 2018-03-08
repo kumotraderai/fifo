@@ -43,8 +43,6 @@ module.exports = function(app) {
             
         })
         .on('data', function(data) {
-            // console.log(data);
-
             allPromises.push(new Promise((resolve, reject) => {
                 var buyUnits = data.units;
                 var sellUnits = data.units;
@@ -62,15 +60,6 @@ module.exports = function(app) {
                         var price = getExchangeData('ETH/USDT', data.date);
                         resolve(price);
                     }
-                    // btcPrice.findOne({
-                    //     where: {
-                    //         date: moment(data.date).format("MMM DD, YYYY")
-                    //     },
-                    //     attributes: ['price']
-                    // }).then(function(results) {
-                    //     var price = results.dataValues.price;
-                    //     resolve(price);
-                    // });
                 });
                 getPrice.then(function(price) {
                     var buyPrice = price * data.rate;
@@ -105,19 +94,13 @@ module.exports = function(app) {
                 });
             }));
         })
-        .on('end', () => {
-            // console.log("Import Complete");
-            // res.send("Uploaded");    
+        .on('end', () => {  
             Promise.all(allPromises).then(function() {
                 sortedData = _.sortBy(allSellData, function(data) {
                     return new Date(data.date);
                 });
-                // sortedData.forEach(function(sellData) {
-                    // console.log(sellData);
                     createSale(sortedData);
-                // });
                 console.log(`---------- Imported ${allPromises.length} transactions ----------`);
-                // res.send("Uploaded"); 
             }).catch((err) => {
                 throw err;
             });
@@ -205,8 +188,6 @@ module.exports = function(app) {
             if (selectedExchange.hasFetchOHLCV) {
                 
                 await selectedExchange.loadMarkets();
-                // console.log(symbol);
-                // setBreakpoint();
                 var price = await selectedExchange.fetchOHLCV(symbol, "1d", selectedDate)
                 return price[0][1];
             }
